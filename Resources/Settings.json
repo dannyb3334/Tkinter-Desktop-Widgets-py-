@@ -15,14 +15,14 @@
         "topmost": "False"
     },
     "Cpu": {
-        "x": 2,
-        "y": 53,
+        "x": 1866,
+        "y": 85,
         "size": 1.3,
         "topmost": "True"
     },
     "Ram": {
-        "x": 1,
-        "y": 0,
+        "x": 1866,
+        "y": 158,
         "size": 1.3,
         "topmost": "True"
     },
@@ -33,8 +33,8 @@
         "topmost": "True"
     },
     "ArticleOfTheDay": {
-        "x": 0,
-        "y": 14,
+        "x": 249,
+        "y": 113,
         "size": 1.0,
         "topmost": "False"
     },
