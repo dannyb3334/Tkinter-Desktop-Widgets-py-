@@ -5,6 +5,8 @@ from PIL import ImageTk, Image
 from Resources import WikiScrapper
 import webbrowser
 import json
+import sys
+import os
 
 class App(tk.Tk):
     #Write Data to json Function
@@ -64,11 +66,10 @@ class App(tk.Tk):
         self.sub_menu.add_command(label='Medium', command=lambda: self.re_size("size", 1.1))
         self.sub_menu.add_command(label='Small', command=lambda: self.re_size("size", 1.0))
         #Main-Menu
-        self.main_menu.add_command(label="Cut")
-        self.main_menu.add_command(label="Copy")
-        self.main_menu.add_command(label="Paste")
         self.main_menu.add_cascade(label="Size", menu=self.sub_menu)
+        self.main_menu.add_cascade(label="Settings",command=lambda: os.system('Settings.pyw'))
         self.main_menu.add_separator()
+        self.main_menu.add_command(label="Refresh", command=lambda: [self.destroy(),App().mainloop()])
         self.main_menu.add_command(label="Quit", command=self.destroy)
         #KeyBinds
         self.bind('<B1-Motion>', self.move)
@@ -88,11 +89,12 @@ class App(tk.Tk):
             text_color = position["Global"]["text_color"]
             bg_color = position["Global"]["bg_color"]
             opacity = position["Global"]["opacity"]
+            topmost = position["ArticleOfTheDay"]["topmost"]
         #Widget General Settings
         self.overrideredirect(True)
         self.wm_attributes('-toolwindow', False) #True only if overriderdirect(False)
         self.wm_attributes('-alpha',opacity)
-        self.wm_attributes('-topmost', False)
+        self.wm_attributes('-topmost', topmost)
         w = 785 * size #Desired widget height
         h = 185 * size #Desired widget width
         self.geometry('%dx%d+%d+%d' % (w, h, x, y))
