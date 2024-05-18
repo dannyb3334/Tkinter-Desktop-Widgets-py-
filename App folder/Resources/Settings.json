@@ -1,0 +1,47 @@
+{
+    "Global": {
+        "x": 1478,
+        "y": 355,
+        "size": 1.2,
+        "topmost": "True",
+        "text_color": "red",
+        "bg_color": "black",
+        "opacity": "0.8"
+    },
+    "ResourceMonitor": {
+        "x": 1207,
+        "y": 315,
+        "size": 1.3,
+        "topmost": "False"
+    },
+    "Cpu": {
+        "x": 1866,
+        "y": 85,
+        "size": 1.3,
+        "topmost": "True"
+    },
+    "Ram": {
+        "x": 1866,
+        "y": 158,
+        "size": 1.3,
+        "topmost": "True"
+    },
+    "Disk": {
+        "x": 1866,
+        "y": 267,
+        "size": 1.3,
+        "topmost": "True"
+    },
+    "ArticleOfTheDay": {
+        "x": 249,
+        "y": 113,
+        "size": 1.0,
+        "topmost": "False"
+    },
+    "Clock": {
+        "x": 500,
+        "y": 882,
+        "size": 1.0,
+        "topmost": "False"
+    }
+}
