@@ -2,14 +2,13 @@ import tkinter as tk
 from tkinter import Menu
 import psutil
 import json
-import sys
 import os
 
 class App(tk.Tk):   
     #Write Data to json Function
     def write_var(self, name, value):
-        with open("Resources/Settings.json", "w") as f:
-            position["Ram"][name] = value
+        with open("app/resources/Settings.json", "w") as f:
+            position["Cpu"][name] = value
             json.dump(position, f, indent=4)
             
     #Move Event
@@ -35,30 +34,28 @@ class App(tk.Tk):
             self.main_menu.tk_popup(event.x_root, event.y_root)
         finally:
             self.main_menu.grab_release()
-    def display_usage(self, ram_usage):
+    def display_usage(self, cpu_usage):
         #Declare vars
-        ram_percent = (ram_usage / 100.0)
-        ram_percent_space = ""
+        cpu_percent = (cpu_usage / 100.0)
+        cpu_percent_space = ""
         #Create space on single digit values to avoid changing text length
-        if ram_percent < 0.1:
-            ram_percent_space = " "
+        if cpu_percent < 0.1:
+            cpu_percent_space = " "
         #Update widget
         c = self.label.cget('text')
-        c = f"RAM\n{ram_percent_space}{ram_usage:.2f}%" 
+        c = f"CPU\n{cpu_percent_space}{cpu_usage:.2f}%" 
         self.label.config(text=c)
         #Repeat after 2.000 sec
-        self.after(2000, self.display_usage, psutil.virtual_memory().percent)
+        self.after(2000, self.display_usage, psutil.cpu_percent())
         
     def create_widget(self, text_color, bg_color):
-        #Add background image (fix)
-        image1 = tk.PhotoImage(file = "Resources/bg.png")
         #Widget Container (Not Mandatory)
         self.frame = tk.Frame(self)
         self.frame.pack(side="top", fill="both", expand=True)
         #Widget Contents
         self.label = tk.Label(self.frame, text="", font="Consolas " + str(round(8 * size)), justify="center", bg=bg_color, fg=text_color)
         self.label.pack(side="top", fill="both", expand=True)
-        self.display_usage(psutil.virtual_memory().percent)
+        self.display_usage(psutil.cpu_percent())
         self.main_menu = Menu(self.frame, tearoff = 0)
         self.sub_menu = Menu(self.main_menu, tearoff=0)
         #Sub-Menu
@@ -82,18 +79,18 @@ class App(tk.Tk):
         global position
 
         #Get variables from json file
-        with open("Resources/Settings.json", "r") as f:
+        with open("app/resources/Settings.json", "r") as f:
             position = json.load(f)
-            x = position["Ram"]["x"]
-            y = position["Ram"]["y"]
-            size = position["Ram"]["size"]
+            x = position["Cpu"]["x"]
+            y = position["Cpu"]["y"]
+            size = position["Cpu"]["size"]
             text_color = position["Global"]["text_color"]
             bg_color = position["Global"]["bg_color"]
             opacity = position["Global"]["opacity"]
-            topmost = position["Ram"]["topmost"]
+            topmost = position["Cpu"]["topmost"]
         #Widget General Settings
         self.overrideredirect(True)
-        self.wm_attributes('-toolwindow', False) #True only if overriderdirect(False)
+        #self.wm_attributes('-toolwindow', False) #True only if overriderdirect(False)
         self.wm_attributes('-alpha',opacity)
         self.wm_attributes('-topmost', topmost)
         w = 40 * size #Desired widget width

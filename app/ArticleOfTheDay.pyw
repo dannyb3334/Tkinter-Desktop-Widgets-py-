@@ -1,17 +1,17 @@
 import tkinter as tk
-from tkinter import Button
 from tkinter import Menu
 from PIL import ImageTk, Image
-from Resources import WikiScrapper
+import resources.WikiScrapper as ws
 import webbrowser
 import json
-import sys
 import os
+
+ws.update_article()
 
 class App(tk.Tk):
     #Write Data to json Function
     def write_var(self, name, value):
-        with open("Resources/Settings.json", "w") as f:
+        with open("app/resources/Settings.json", "w") as f:
             position["ArticleOfTheDay"][name] = value
             json.dump(position, f, indent=4)
             
@@ -38,13 +38,14 @@ class App(tk.Tk):
             self.main_menu.tk_popup(event.x_root, event.y_root)
         finally:
             self.main_menu.grab_release()
+            
     #Open Browser
     def callback(self, url):
             webbrowser.open_new_tab(url)
         
     def create_widget(self, text_color, bg_color):
         #Open Saved Image, Add to Window
-        image_raw = Image.open("Resources/ArticleImage.jpg")
+        image_raw = Image.open("app/resources/ArticleImage.png")
         im_width = round(image_raw.width * size)
         im_height = round(image_raw.height * size)
         pad_default = 15 * size
@@ -53,8 +54,8 @@ class App(tk.Tk):
         self.img = ImageTk.PhotoImage((image_raw).resize((im_width, im_height)))
         self.image = tk.Label(self, image = self.img, bg=bg_color)
         self.image.grid(row=1, column=1, padx=pad_default, pady=15*size)
-            #Read Record Of Article, Add to Window
-        with open("Resources/ArticleText.json", "r") as jsonFile:
+        #Read Record Of Article, Add to Window
+        with open("app/resources/ArticleText.json", "r") as jsonFile:
             article_saved = json.load(jsonFile)
         self.text = tk.Label(self, text=article_saved, font="helvetica " + str(round(9 * size)), wraplength=595 * size, justify="left", bg=bg_color, fg=text_color)
         self.text.grid(row=1, column=2, padx=(0, pad_default), pady= pad_default)
@@ -81,7 +82,7 @@ class App(tk.Tk):
         global size
         global position
         #Get variables from json file
-        with open("Resources/Settings.json", "r") as f:
+        with open("app/resources/Settings.json", "r") as f:
             position = json.load(f)
             x = position["ArticleOfTheDay"]["x"]
             y = position["ArticleOfTheDay"]["y"]
@@ -92,11 +93,11 @@ class App(tk.Tk):
             topmost = position["ArticleOfTheDay"]["topmost"]
         #Widget General Settings
         self.overrideredirect(True)
-        self.wm_attributes('-toolwindow', False) #True only if overriderdirect(False)
+        #self.wm_attributes('-toolwindow', False) #True only if overriderdirect(False)
         self.wm_attributes('-alpha',opacity)
         self.wm_attributes('-topmost', topmost)
-        w = 785 * size #Desired widget height
-        h = 185 * size #Desired widget width
+        w = 900 * size #Desired widget height
+        h = 200 * size #Desired widget width
         self.geometry('%dx%d+%d+%d' % (w, h, x, y))
         #Build widget contents
         self.create_widget(text_color, bg_color)
